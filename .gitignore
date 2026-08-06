@@ -1,0 +1,8 @@
+# Environment
+.env
+
+# Benchmark outputs (keep directory)
+results/*.json
+
+# Dataset CSVs (keep directory)
+datasets/*.csv
