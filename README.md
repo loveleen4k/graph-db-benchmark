@@ -21,13 +21,13 @@ go run ./cmd
 
 | Path | Purpose |
 |------|---------|
-| `cmd/` | CLI entrypoint |
+| `cmd/` | CLI entrypoints (load, sample, smoketest, benchdemo, …) |
 | `internal/db/` | Database interface and per-backend implementations |
-| `internal/workload/` | Benchmark workload definitions |
-| `internal/metrics/` | Timing, percentiles, result aggregation |
-| `internal/loader/` | Dataset download, clean, and import |
+| `internal/bench/` | Benchmark runner, timer, Workload interface, Phase 4+ result schema |
+| `internal/loader/` | Dataset download, BFS sample, and import |
+| `workloads/` | Phase 5 query definitions (traversal, lookup, …) |
 | `datasets/` | Local dataset files (CSVs are gitignored) |
-| `results/` | Benchmark JSON outputs (gitignored) |
+| `results/` | Load + bench JSON outputs (gitignored) |
 | `scripts/` | Helper scripts |
 
 ## Configuration
