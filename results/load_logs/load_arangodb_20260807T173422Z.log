@@ -1,0 +1,16 @@
+2026/08/07 23:04:31 [arangodb] loading nodes from datasets/nodes.csv (batch=1000)
+2026/08/07 23:04:36 [arangodb] nodes loaded: 26259 (failed_batches so far: 0)
+2026/08/07 23:04:36 [arangodb] loading relationships from datasets/relationships.csv
+2026/08/07 23:04:52 [arangodb]   ... 100000 relationships submitted (100000 written)
+2026/08/07 23:05:09 [arangodb]   ... 200000 relationships submitted (200000 written)
+2026/08/07 23:05:13 [arangodb] relationships loaded: 215922 (skipped=0, failed_batches=0)
+2026/08/07 23:05:13 [arangodb] load finished in 43.53s - wrote results\load_arangodb_20260807T173513Z.json
+=== load complete ===
+database:       arangodb
+node_count:     26259
+rel_count:      215922
+total_seconds:  43.53
+nodes_per_sec:  603.31
+rels_per_sec:   4960.85
+failed_batches: 0
+result file:    results\load_arangodb_20260807T173513Z.json

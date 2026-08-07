@@ -1,0 +1,16 @@
+2026/08/07 23:08:10 [neo4j] loading nodes from datasets/nodes.csv (batch=1000)
+2026/08/07 23:08:14 [neo4j] nodes loaded: 26259 (failed_batches so far: 0)
+2026/08/07 23:08:14 [neo4j] loading relationships from datasets/relationships.csv
+2026/08/07 23:08:28 [neo4j]   ... 100000 relationships submitted (100000 written)
+2026/08/07 23:08:41 [neo4j]   ... 200000 relationships submitted (200000 written)
+2026/08/07 23:08:44 [neo4j] relationships loaded: 215922 (skipped=0, failed_batches=0)
+2026/08/07 23:08:44 [neo4j] load finished in 34.74s - wrote results\load_neo4j_20260807T173844Z.json
+=== load complete ===
+database:       neo4j
+node_count:     26259
+rel_count:      215922
+total_seconds:  34.74
+nodes_per_sec:  755.82
+rels_per_sec:   6214.92
+failed_batches: 0
+result file:    results\load_neo4j_20260807T173844Z.json

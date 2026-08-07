@@ -83,6 +83,7 @@ func main() {
 		fatal(err)
 	}
 
+	start := time.Now()
 	stats := &loader.Stats{}
 	stats.AddNodes(len(nodes))
 	written, err := g.LoadRelationshipsBatch(ctx, rels)
@@ -91,7 +92,7 @@ func main() {
 	}
 	stats.AddRelationships(len(rels), written)
 
-	outPath, err := loader.WriteLoadResult(stats.Result(g.Name()))
+	outPath, err := loader.WriteLoadResult(stats.Result(g.Name(), time.Since(start)))
 	if err != nil {
 		fatal(err)
 	}

@@ -1,0 +1,16 @@
+2026/08/07 23:07:19 [memgraph] loading nodes from datasets/nodes.csv (batch=1000)
+2026/08/07 23:07:25 [memgraph] nodes loaded: 26259 (failed_batches so far: 0)
+2026/08/07 23:07:25 [memgraph] loading relationships from datasets/relationships.csv
+2026/08/07 23:07:44 [memgraph]   ... 100000 relationships submitted (100000 written)
+2026/08/07 23:08:05 [memgraph]   ... 200000 relationships submitted (200000 written)
+2026/08/07 23:08:08 [memgraph] relationships loaded: 215922 (skipped=0, failed_batches=0)
+2026/08/07 23:08:08 [memgraph] load finished in 50.26s - wrote results\load_memgraph_20260807T173808Z.json
+=== load complete ===
+database:       memgraph
+node_count:     26259
+rel_count:      215922
+total_seconds:  50.26
+nodes_per_sec:  522.50
+rels_per_sec:   4296.37
+failed_batches: 0
+result file:    results\load_memgraph_20260807T173808Z.json

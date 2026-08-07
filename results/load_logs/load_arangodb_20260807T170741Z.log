@@ -1,0 +1,37 @@
+2026/08/07 22:38:18 [arangodb] loading nodes from datasets/nodes.csv (batch=1000)
+2026/08/07 22:40:15 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:15 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:15 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:15 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:15 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:15 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:16 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:16 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:16 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:44 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:45 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:45 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:45 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:45 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:45 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:45 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:45 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:45 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:46 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:46 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:46 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:46 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:46 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:46 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:40:46 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:41:05 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: AQL: query killed [node #12: UpsertNode] (while executing) - continuing
+2026/08/07 22:41:05 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: shutdown in progress - continuing
+2026/08/07 22:41:05 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: shutdown in progress - continuing
+2026/08/07 22:41:05 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:41:05 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:41:06 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:41:06 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'no healthy upstream' - continuing
+2026/08/07 22:41:07 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'upstream connect error or disconnect/reset before headers. retried and the latest reset reason: connection timeout' - continuing
+2026/08/07 22:41:07 [arangodb] WARNING: node batch failed (1000 rows): arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'upstream connect error or disconnect/reset before headers. retried and the latest reset reason: remote connection failure, transport failure reason: delayed connect error: Connection refused' - continuing
+2026/08/07 22:41:07 load failed: aborting after 25 consecutive node batch failures (last error: arangodb: LoadNodesBatch: Unsupported content type 'text/plain' with status 503 and content 'upstream connect error or disconnect/reset before headers. retried and the latest reset reason: remote connection failure, transport failure reason: delayed connect error: Connection refused')
+exit status 1

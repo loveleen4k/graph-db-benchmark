@@ -87,6 +87,27 @@ DETACH DELETE n`
 	return nil
 }
 
+// ClearBenchmarkData removes every Person node (and incident relationships)
+// in batches so partial/failed loads can be wiped before a fair reload.
+func (b *BoltGraphDB) ClearBenchmarkData(ctx context.Context) (removed int64, err error) {
+	const cypher = `
+MATCH (n:Person)
+WITH n LIMIT 10000
+DETACH DELETE n
+RETURN count(*) AS c`
+	for {
+		val, err := b.runWriteSingle(ctx, cypher, nil)
+		if err != nil {
+			return removed, fmt.Errorf("%s: ClearBenchmarkData: %w", b.name, err)
+		}
+		n := toInt64(val)
+		removed += n
+		if n == 0 {
+			return removed, nil
+		}
+	}
+}
+
 func (b *BoltGraphDB) Ping(ctx context.Context) error {
 	if b.driver == nil {
 		return fmt.Errorf("%s: not connected", b.name)
