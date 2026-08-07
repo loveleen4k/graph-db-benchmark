@@ -1,14 +1,23 @@
 # Workload query definitions (Phase 5)
 
-This directory holds the real benchmark query implementations per category:
+This directory holds the real benchmark query implementations per category.
 
-- traversal/
+## Traversal (`traversal.go`)
+
+Hop definition (identical on every database):
+
+> N-hop traversal = count of distinct nodes reachable within 1 to N hops
+> outward from the start node, excluding the start node itself, following
+> relationships in their stored direction.
+
+Start nodes always come from `datasets/sample_seed_nodes.csv` via the Phase 4
+runner rotation.
+
+## Other categories (later)
+
 - lookup/
 - aggregation/
 - mixed/
-
-The runner and interfaces live in `internal/bench`. Phase 5 plugs category
-workloads into `bench.Workload` without changing the runner.
 
 Framework-only example workloads (`framework_check_ping`,
 `framework_check_point_lookup`) live in `internal/bench` for demos and tests.

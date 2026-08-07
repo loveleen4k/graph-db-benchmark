@@ -221,10 +221,10 @@ FOR row IN @batch
 
 // Traversal walks the social graph from startID for up to hops hops.
 //
-// Semantics: (a) cumulative — count of DISTINCT nodes reachable within 1..N
-// hops (NOT exact-depth-N only). Matches bolt_common.go Cypher [*1..N] +
-// count(DISTINCT m). uniqueVertices:"global" + COLLECT WITH COUNT dedupes
-// vertices reachable via multiple paths. Excludes the start node.
+// N-hop = count of distinct nodes reachable within 1..N hops outward from the
+// start node, excluding the start node itself, following FOLLOWS outbound
+// (matches bolt_common.go directed Cypher). uniqueVertices:"global" +
+// COLLECT WITH COUNT dedupes multi-path hits.
 //
 // Measures: multi-hop neighborhood expansion (AQL graph traversal).
 func (a *ArangoDB) Traversal(ctx context.Context, startID string, hops int) (int, error) {
@@ -235,12 +235,11 @@ func (a *ArangoDB) Traversal(ctx context.Context, startID string, hops int) (int
 
 	// Depth bound 1..@hops excludes depth 0 structurally: the start vertex is
 	// never emitted by AQL traversal (same effect as Cypher WHERE m <> s).
-	// FILTER v._key != @startKey is defensive parity with that Cypher clause,
-	// not required to drop the start under a min-depth of 1.
+	// FILTER v._key != @startKey is defensive parity with that Cypher clause.
 	// order:bfs is required by Arango when uniqueVertices is "global".
-	// ANY = undirected like Cypher -[]- ; uniqueVertices dedupes multi-path hits.
+	// OUTBOUND = directed FOLLOWS like Cypher -[:FOLLOWS]-> .
 	const aql = `
-FOR v IN 1..@hops ANY @start GRAPH social
+FOR v IN 1..@hops OUTBOUND @start GRAPH social
   OPTIONS { uniqueVertices: "global", order: "bfs" }
   FILTER v._key != @startKey
   COLLECT WITH COUNT INTO cnt
