@@ -235,7 +235,7 @@ SET p += $props`
 	return nil
 }
 
-// CleanupSmoketest — same Cypher as bolt_common.go.
+// CleanupSmoketest - same Cypher as bolt_common.go.
 func (f *FalkorDB) CleanupSmoketest(ctx context.Context) error {
 	const cypher = `
 MATCH (n:Person)
@@ -245,6 +245,27 @@ DETACH DELETE n`
 		return fmt.Errorf("falkordb: CleanupSmoketest: %w", err)
 	}
 	return nil
+}
+
+// ClearBenchmarkData removes every Person node (and incident relationships)
+// in batches so partial/failed loads can be wiped before a fair reload.
+func (f *FalkorDB) ClearBenchmarkData(ctx context.Context) (removed int64, err error) {
+	const cypher = `
+MATCH (n:Person)
+WITH n LIMIT 10000
+DETACH DELETE n
+RETURN count(*) AS c`
+	for {
+		val, err := f.runSingle(cypher, nil)
+		if err != nil {
+			return removed, fmt.Errorf("falkordb: ClearBenchmarkData: %w", err)
+		}
+		n := toInt64(val)
+		removed += n
+		if n == 0 {
+			return removed, nil
+		}
+	}
 }
 
 func (f *FalkorDB) run(cypher string, params map[string]interface{}) error {

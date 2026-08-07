@@ -1,0 +1,16 @@
+2026/08/07 23:05:19 [cognodb] loading nodes from datasets/nodes.csv (batch=1000)
+2026/08/07 23:05:30 [cognodb] nodes loaded: 26259 (failed_batches so far: 0)
+2026/08/07 23:05:30 [cognodb] loading relationships from datasets/relationships.csv
+2026/08/07 23:06:12 [cognodb]   ... 100000 relationships submitted (100000 written)
+2026/08/07 23:06:52 [cognodb]   ... 200000 relationships submitted (200000 written)
+2026/08/07 23:06:59 [cognodb] relationships loaded: 215922 (skipped=0, failed_batches=0)
+2026/08/07 23:06:59 [cognodb] load finished in 102.02s - wrote results\load_cognodb_20260807T173659Z.json
+=== load complete ===
+database:       cognodb
+node_count:     26259
+rel_count:      215922
+total_seconds:  102.02
+nodes_per_sec:  257.40
+rels_per_sec:   2116.57
+failed_batches: 0
+result file:    results\load_cognodb_20260807T173659Z.json

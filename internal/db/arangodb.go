@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 
 	driver "github.com/arangodb/go-driver"
 	"github.com/arangodb/go-driver/http"
@@ -400,6 +401,41 @@ RETURN 1`
 		}
 	}
 	return nil
+}
+
+// ClearBenchmarkData truncates Person and FOLLOWS so a failed/partial load
+// does not leave stale rows before a fair reload.
+func (a *ArangoDB) ClearBenchmarkData(ctx context.Context) (removed int64, err error) {
+	if a.db == nil {
+		return 0, fmt.Errorf("arangodb: not connected")
+	}
+	before, err := a.Aggregation(ctx)
+	if err != nil {
+		// Collections may not exist yet on a fresh instance.
+		if strings.Contains(strings.ToLower(err.Error()), "not found") ||
+			strings.Contains(strings.ToLower(err.Error()), "unknown collection") {
+			return 0, nil
+		}
+		return 0, fmt.Errorf("arangodb: ClearBenchmarkData count: %w", err)
+	}
+
+	for _, name := range []string{arangoFollowsCol, arangoPersonCol} {
+		exists, err := a.db.CollectionExists(ctx, name)
+		if err != nil {
+			return 0, fmt.Errorf("arangodb: CollectionExists(%s): %w", name, err)
+		}
+		if !exists {
+			continue
+		}
+		col, err := a.db.Collection(ctx, name)
+		if err != nil {
+			return 0, fmt.Errorf("arangodb: Collection(%s): %w", name, err)
+		}
+		if err := col.Truncate(ctx); err != nil {
+			return 0, fmt.Errorf("arangodb: Truncate(%s): %w", name, err)
+		}
+	}
+	return before, nil
 }
 
 func (a *ArangoDB) ensureCollection(ctx context.Context, name string, edge bool) error {

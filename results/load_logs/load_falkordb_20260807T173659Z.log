@@ -1,0 +1,16 @@
+2026/08/07 23:07:01 [falkordb] loading nodes from datasets/nodes.csv (batch=1000)
+2026/08/07 23:07:03 [falkordb] nodes loaded: 26259 (failed_batches so far: 0)
+2026/08/07 23:07:03 [falkordb] loading relationships from datasets/relationships.csv
+2026/08/07 23:07:09 [falkordb]   ... 100000 relationships submitted (100000 written)
+2026/08/07 23:07:16 [falkordb]   ... 200000 relationships submitted (200000 written)
+2026/08/07 23:07:17 [falkordb] relationships loaded: 215922 (skipped=0, failed_batches=0)
+2026/08/07 23:07:17 [falkordb] load finished in 16.69s - wrote results\load_falkordb_20260807T173717Z.json
+=== load complete ===
+database:       falkordb
+node_count:     26259
+rel_count:      215922
+total_seconds:  16.69
+nodes_per_sec:  1573.66
+rels_per_sec:   12939.86
+failed_batches: 0
+result file:    results\load_falkordb_20260807T173717Z.json

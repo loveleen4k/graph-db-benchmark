@@ -6,3 +6,5 @@ results/*.json
 
 # Dataset CSVs (keep directory)
 datasets/*.csv
+datasets/raw/*.gz
+datasets/raw/*.txt
