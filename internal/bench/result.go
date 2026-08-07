@@ -25,6 +25,12 @@ type Result struct {
 	P95Ms            float64   `json:"p95_ms"`
 	Failures         int       `json:"failures"`
 	Timestamp        time.Time `json:"timestamp"`
+	// Mixed-workload extras (omitted for sequential benches).
+	QueriesPerSec float64 `json:"queries_per_sec,omitempty"`
+	Concurrency   int     `json:"concurrency,omitempty"`
+	ReadPct       int     `json:"read_pct,omitempty"`
+	WritePct      int     `json:"write_pct,omitempty"`
+	DurationSec   float64 `json:"duration_seconds,omitempty"`
 }
 
 // WriteResult writes results/bench_<category>_<database>_<timestamp>.json.

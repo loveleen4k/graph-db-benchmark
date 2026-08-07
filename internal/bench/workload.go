@@ -6,9 +6,8 @@ import (
 	"graph-benchmark/internal/db"
 )
 
-// Workload is one benchmark operation Phase 5 will implement (traversal,
-// lookup, aggregation, mixed). The runner times Execute; workloads must not
-// start their own clocks.
+// Workload is one benchmark operation (traversal, lookup, aggregation, mixed).
+// The runner times Execute; workloads must not start their own clocks.
 //
 // startNode is a Person.id from the shared sample_seed_nodes.csv list when the
 // workload needs a start point. It may be empty for workloads that do not

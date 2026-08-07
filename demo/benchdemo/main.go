@@ -1,9 +1,9 @@
 // Command benchdemo is a FRAMEWORK SELF-CHECK only - not a Phase 5 benchmark.
 //
 // It exercises the runner against one live database (default: cognodb) with
-// trivial example workloads. Result files are written as
-// results/bench_framework_check_<db>_*.json so they must not be pulled into
-// final Phase 5 result tables (those use categories like traversal, lookup,
+// trivial example workloads. Result files are written under demo/results/ as
+// bench_framework_check_<db>_*.json so they must not be pulled into final
+// Phase 5 result tables (those use categories like traversal, lookup,
 // aggregation, mixed).
 package main
 
@@ -12,6 +12,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"time"
 
 	"graph-benchmark/internal/bench"
@@ -20,12 +21,14 @@ import (
 	"github.com/joho/godotenv"
 )
 
+const demoResultsDir = "demo/results"
+
 func main() {
 	_ = godotenv.Load()
 
 	fmt.Println("============================================================")
-	fmt.Println("FRAMEWORK SELF-CHECK (cmd/benchdemo) - NOT a Phase 5 result")
-	fmt.Println("Outputs: results/bench_framework_check_<db>_*.json")
+	fmt.Println("FRAMEWORK SELF-CHECK (demo/benchdemo) - NOT a Phase 5 result")
+	fmt.Println("Outputs: demo/results/bench_framework_check_<db>_*.json")
 	fmt.Println("Do not include these in final benchmark tables.")
 	fmt.Println("============================================================")
 
@@ -69,7 +72,7 @@ func main() {
 	if err != nil {
 		fatal(err)
 	}
-	pingPath, err := bench.WriteResult(*pingRes)
+	pingPath, err := writeDemoResult(*pingRes)
 	if err != nil {
 		fatal(err)
 	}
@@ -86,7 +89,7 @@ func main() {
 	if err != nil {
 		fatal(err)
 	}
-	lookPath, err := bench.WriteResult(*lookRes)
+	lookPath, err := writeDemoResult(*lookRes)
 	if err != nil {
 		fatal(err)
 	}
@@ -121,6 +124,29 @@ func main() {
 	fmt.Println("============================================================")
 	fmt.Println("benchdemo FRAMEWORK SELF-CHECK: PASS (not a Phase 5 measurement)")
 	fmt.Println("============================================================")
+}
+
+func writeDemoResult(r bench.Result) (string, error) {
+	if err := os.MkdirAll(demoResultsDir, 0o755); err != nil {
+		return "", fmt.Errorf("create demo results dir: %w", err)
+	}
+	if r.Timestamp.IsZero() {
+		r.Timestamp = time.Now().UTC()
+	}
+	cat := r.Category
+	if cat == "" {
+		cat = "bench"
+	}
+	name := fmt.Sprintf("bench_%s_%s_%s.json", cat, r.Database, r.Timestamp.Format("20060102T150405Z"))
+	path := filepath.Join(demoResultsDir, name)
+	data, err := json.MarshalIndent(r, "", "  ")
+	if err != nil {
+		return "", fmt.Errorf("marshal demo result: %w", err)
+	}
+	if err := os.WriteFile(path, data, 0o644); err != nil {
+		return "", fmt.Errorf("write demo result: %w", err)
+	}
+	return path, nil
 }
 
 func printResult(r *bench.Result) {

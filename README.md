@@ -14,21 +14,29 @@ Cross-database graph benchmarking tool for CognoDB, Neo4j, Memgraph, FalkorDB, a
 cp .env.example .env
 # edit .env with your database URIs and passwords
 
-go run ./cmd
+# Sample dataset, then load one database (or use scripts/load_all.sh)
+go run ./cmd/sample -max-edges 300000
+go run ./cmd/load -db cognodb
+
+# Run a benchmark category
+go run ./cmd/bench_traversal
+go run ./cmd/bench_lookup
+go run ./cmd/bench_agg_mixed
 ```
 
 ## Layout
 
 | Path | Purpose |
 |------|---------|
-| `cmd/` | CLI entrypoints (load, sample, smoketest, benchdemo, …) |
+| `cmd/` | CLI entrypoints (load, sample, smoketest, bench_*) |
 | `internal/db/` | Database interface and per-backend implementations |
-| `internal/bench/` | Benchmark runner, timer, Workload interface, Phase 4+ result schema |
+| `internal/bench/` | Benchmark runner, timer, Workload interface, result schema |
 | `internal/loader/` | Dataset download, BFS sample, and import |
-| `workloads/` | Phase 5 query definitions (traversal, lookup, …) |
+| `workloads/` | Benchmark query definitions (traversal, lookup, aggregation) |
 | `datasets/` | Local dataset files (CSVs are gitignored) |
 | `results/` | Load + bench JSON outputs (gitignored) |
-| `scripts/` | Helper scripts |
+| `scripts/` | Helper scripts (download, load_all) |
+| `demo/` | Framework self-checks only (not Phase 5 results) |
 
 ## Configuration
 

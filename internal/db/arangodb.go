@@ -186,9 +186,8 @@ FOR row IN @batch
 //
 // DOCUMENT()+FILTER mirrors Cypher MATCH on endpoints: missing vertices are
 // skipped (no dangling edges) rather than inserted. UPSERT on (_from,_to)
-// mirrors Cypher MERGE (a)-[:FOLLOWS]->(b) so reloads are idempotent — a plain
-// INSERT without a stable key previously created duplicate/auto-keyed edges on
-// every retry (see +2000 leftover from the failed 20260807 load).
+// mirrors Cypher MERGE (a)-[:FOLLOWS]->(b) so reloads are idempotent; a plain
+// INSERT without a stable key would create duplicate/auto-keyed edges on retry.
 // Returns written count so callers can accumulate skipped_edges = submitted - written.
 func (a *ArangoDB) LoadRelationshipsBatch(ctx context.Context, rels []Relationship) (int, error) {
 	if len(rels) == 0 {
