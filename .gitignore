@@ -4,6 +4,9 @@
 # Benchmark outputs (keep directory)
 results/*.json
 
+# Demo self-check outputs (not Phase 5 results)
+demo/results/*.json
+
 # Dataset CSVs (keep directory)
 datasets/*.csv
 datasets/raw/*.gz

@@ -115,6 +115,20 @@ func (a *ArangoDB) CreateSchema(ctx context.Context) error {
 		return fmt.Errorf("arangodb: name index: %w", err)
 	}
 
+	// Unique (_from,_to) index makes edge UPSERT MERGE-equivalent and blocks
+	// duplicate FOLLOWS pairs if a reload races or omits deterministic _key.
+	follows, err := a.db.Collection(ctx, arangoFollowsCol)
+	if err != nil {
+		return fmt.Errorf("arangodb: follows collection: %w", err)
+	}
+	_, _, err = follows.EnsurePersistentIndex(ctx, []string{"_from", "_to"}, &driver.EnsurePersistentIndexOptions{
+		Name:   "idx_follows_from_to",
+		Unique: true,
+	})
+	if err != nil {
+		return fmt.Errorf("arangodb: follows from/to unique index: %w", err)
+	}
+
 	exists, err := a.db.GraphExists(ctx, arangoGraphName)
 	if err != nil {
 		return fmt.Errorf("arangodb: GraphExists: %w", err)
@@ -171,8 +185,10 @@ FOR row IN @batch
 // Measures: batched edge ingest throughput after vertices exist.
 //
 // DOCUMENT()+FILTER mirrors Cypher MATCH on endpoints: missing vertices are
-// skipped (no dangling edges) rather than inserted. Returns written count so
-// callers can accumulate skipped_edges = submitted - written.
+// skipped (no dangling edges) rather than inserted. UPSERT on (_from,_to)
+// mirrors Cypher MERGE (a)-[:FOLLOWS]->(b) so reloads are idempotent; a plain
+// INSERT without a stable key would create duplicate/auto-keyed edges on retry.
+// Returns written count so callers can accumulate skipped_edges = submitted - written.
 func (a *ArangoDB) LoadRelationshipsBatch(ctx context.Context, rels []Relationship) (int, error) {
 	if len(rels) == 0 {
 		return 0, nil
@@ -182,20 +198,31 @@ func (a *ArangoDB) LoadRelationshipsBatch(ctx context.Context, rels []Relationsh
 		doc := cloneProps(r.Properties)
 		doc["_from"] = arangoPersonCol + "/" + r.FromID
 		doc["_to"] = arangoPersonCol + "/" + r.ToID
+		// Deterministic _key so overwrite/UPSERT is stable across reloads.
+		// Prefer explicit relationship ID when present; otherwise from_to.
 		if r.ID != "" {
 			doc["_key"] = r.ID
+		} else {
+			doc["_key"] = r.FromID + "_" + r.ToID
 		}
 		batch = append(batch, doc)
 	}
 
 	// FILTER drops rows whose endpoints are missing (MATCH-equivalent skip).
+	// UPSERT matches on directed endpoints (not only _key) so leftover
+	// auto-keyed edges from older loads are updated in place instead of
+	// accumulating a second FOLLOWS document for the same pair.
+	// UPDATE must not touch immutable edge identity fields (_key/_from/_to).
 	const aql = `
 FOR row IN @batch
   LET fromDoc = DOCUMENT(row._from)
   LET toDoc = DOCUMENT(row._to)
   FILTER fromDoc != null AND toDoc != null
-  INSERT row INTO FOLLOWS
-  OPTIONS { overwriteMode: "update" }
+  LET patch = UNSET(row, '_key', '_id', '_rev', '_from', '_to')
+  UPSERT { _from: row._from, _to: row._to }
+  INSERT row
+  UPDATE patch
+  IN FOLLOWS
   COLLECT WITH COUNT INTO created
   RETURN created`
 
@@ -221,10 +248,10 @@ FOR row IN @batch
 
 // Traversal walks the social graph from startID for up to hops hops.
 //
-// Semantics: (a) cumulative — count of DISTINCT nodes reachable within 1..N
-// hops (NOT exact-depth-N only). Matches bolt_common.go Cypher [*1..N] +
-// count(DISTINCT m). uniqueVertices:"global" + COLLECT WITH COUNT dedupes
-// vertices reachable via multiple paths. Excludes the start node.
+// N-hop = count of distinct nodes reachable within 1..N hops outward from the
+// start node, excluding the start node itself, following FOLLOWS outbound
+// (matches bolt_common.go directed Cypher). uniqueVertices:"global" +
+// COLLECT WITH COUNT dedupes multi-path hits.
 //
 // Measures: multi-hop neighborhood expansion (AQL graph traversal).
 func (a *ArangoDB) Traversal(ctx context.Context, startID string, hops int) (int, error) {
@@ -235,12 +262,11 @@ func (a *ArangoDB) Traversal(ctx context.Context, startID string, hops int) (int
 
 	// Depth bound 1..@hops excludes depth 0 structurally: the start vertex is
 	// never emitted by AQL traversal (same effect as Cypher WHERE m <> s).
-	// FILTER v._key != @startKey is defensive parity with that Cypher clause,
-	// not required to drop the start under a min-depth of 1.
+	// FILTER v._key != @startKey is defensive parity with that Cypher clause.
 	// order:bfs is required by Arango when uniqueVertices is "global".
-	// ANY = undirected like Cypher -[]- ; uniqueVertices dedupes multi-path hits.
+	// OUTBOUND = directed FOLLOWS like Cypher -[:FOLLOWS]-> .
 	const aql = `
-FOR v IN 1..@hops ANY @start GRAPH social
+FOR v IN 1..@hops OUTBOUND @start GRAPH social
   OPTIONS { uniqueVertices: "global", order: "bfs" }
   FILTER v._key != @startKey
   COLLECT WITH COUNT INTO cnt

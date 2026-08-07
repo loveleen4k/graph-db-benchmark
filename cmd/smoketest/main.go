@@ -172,13 +172,12 @@ func runOne(ctx context.Context, g db.GraphDB) *dbReport {
 	}
 
 	if !abort {
-		// 6. Traversal — report count; do not hard-fail on unexpected magnitude
+		// 6. Traversal - report count; do not hard-fail on unexpected magnitude
 		n, err := g.Traversal(ctx, "smoketest-1", 2)
 		if err != nil {
 			failAndAbort("Traversal", err)
 		} else {
 			mark("Traversal", statusPASS, fmt.Sprintf("(%d nodes reached)", n))
-			// Replace line with the human-friendly form requested
 			r.Lines[len(r.Lines)-1] = fmt.Sprintf("Traversal(2 hops): %d nodes reached", n)
 			r.Steps["Traversal"] = stepResult{Status: statusPASS, Detail: fmt.Sprintf("%d nodes", n)}
 		}

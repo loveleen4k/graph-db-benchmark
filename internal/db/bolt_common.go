@@ -223,11 +223,11 @@ RETURN count(rel) AS created`
 	return written, nil
 }
 
-// Traversal expands from startID up to `hops` relationship hops (undirected).
+// Traversal expands from startID up to `hops` relationship hops (directed).
 //
-// Semantics: (a) cumulative — count of DISTINCT nodes reachable within 1..N
-// hops (NOT exact-depth-N only). count(DISTINCT m) dedupes nodes reachable
-// via multiple paths. Excludes the start node.
+// N-hop = count of distinct nodes reachable within 1..N hops outward from the
+// start node, excluding the start node itself, following FOLLOWS in stored
+// direction (outbound only).
 //
 // Measures: multi-hop neighborhood expansion / variable-length path cost.
 func (b *BoltGraphDB) Traversal(ctx context.Context, startID string, hops int) (int, error) {
@@ -238,7 +238,7 @@ func (b *BoltGraphDB) Traversal(ctx context.Context, startID string, hops int) (
 	}
 
 	cypher := fmt.Sprintf(`
-MATCH (s:Person {id: $startID})-[*1..%d]-(m)
+MATCH (s:Person {id: $startID})-[:FOLLOWS*1..%d]->(m)
 WHERE m <> s
 RETURN count(DISTINCT m) AS cnt`, hops)
 

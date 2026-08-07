@@ -1,6 +1,5 @@
 // Package bench is the shared benchmark framework: timing, workloads, runner,
-// and JSON results. Phase 5 plugs real query workloads into Workload without
-// changing the runner.
+// and JSON results.
 package bench
 
 import "time"

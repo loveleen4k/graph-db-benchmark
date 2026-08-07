@@ -34,7 +34,7 @@ type GraphDB interface {
 	// endpoint resolution (MATCH/FILTER). Callers compute skipped as
 	// len(rels)-written; silent MATCH misses must not inflate node counts.
 	LoadRelationshipsBatch(ctx context.Context, rels []Relationship) (written int, err error)
-	Traversal(ctx context.Context, startID string, hops int) (int, error)
+	Traversal(ctx context.Context, startID string, hops int) (int, error) // directed 1..N hop distinct count
 	PointLookup(ctx context.Context, id string) (bool, error)
 	IndexedLookup(ctx context.Context, property, value string) (int, error)
 	Aggregation(ctx context.Context) (int64, error)

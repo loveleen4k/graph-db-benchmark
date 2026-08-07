@@ -155,14 +155,14 @@ RETURN count(rel) AS created`
 	return written, nil
 }
 
-// Traversal — same Cypher as bolt_common.go ([*1..N], count DISTINCT).
+// Traversal — directed outbound FOLLOWS, same semantics as bolt_common.go.
 func (f *FalkorDB) Traversal(ctx context.Context, startID string, hops int) (int, error) {
 	if hops < 1 || hops > 3 {
 		return 0, fmt.Errorf("falkordb: Traversal: hops must be in 1..3, got %d", hops)
 	}
 
 	cypher := fmt.Sprintf(`
-MATCH (s:Person {id: $startID})-[*1..%d]-(m)
+MATCH (s:Person {id: $startID})-[:FOLLOWS*1..%d]->(m)
 WHERE m <> s
 RETURN count(DISTINCT m) AS cnt`, hops)
 

@@ -45,15 +45,6 @@ func EnsureResultsDir() error {
 	return nil
 }
 
-// Clean removes a local dataset file. Download/import hooks will be added later.
-func Clean(name string) error {
-	path := DatasetPath(name)
-	if err := os.Remove(path); err != nil && !os.IsNotExist(err) {
-		return fmt.Errorf("clean %s: %w", path, err)
-	}
-	return nil
-}
-
 // LoadResult is written to results/load_<db>_*.json after a dataset import.
 type LoadResult struct {
 	Database      string    `json:"database"`

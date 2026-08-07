@@ -1,5 +1,5 @@
-// Throwaway smoke test: confirm LoadRelationshipsBatch reports skipped_edges=2
-// for 2 edges pointing at non-existent node IDs. Not part of the permanent suite.
+// Demo smoke test: confirm LoadRelationshipsBatch reports skipped_edges=2
+// for 2 edges pointing at non-existent node IDs.
 package main
 
 import (
@@ -92,13 +92,13 @@ func main() {
 	}
 	stats.AddRelationships(len(rels), written)
 
-	outPath, err := loader.WriteLoadResult(stats.Result(g.Name(), time.Since(start)))
+	result := stats.Result(g.Name(), time.Since(start))
+	raw, err := json.MarshalIndent(result, "", "  ")
 	if err != nil {
 		fatal(err)
 	}
-
-	raw, err := os.ReadFile(outPath)
-	if err != nil {
+	outPath := filepath.Join(tmpDir, "load_smoke_result.json")
+	if err := os.WriteFile(outPath, raw, 0o644); err != nil {
 		fatal(err)
 	}
 	fmt.Println("---", outPath, "---")
@@ -122,8 +122,6 @@ func main() {
 	} else {
 		fmt.Println("cleaned smoke nodes from", g.Name())
 	}
-	_ = os.Remove(outPath)
-	fmt.Println("removed", outPath)
 }
 
 func resolveNodeIDs(tmpDir string) (ids []string, nodesCSV string, err error) {
