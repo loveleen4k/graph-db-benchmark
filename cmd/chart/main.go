@@ -360,13 +360,7 @@ func renderGrouped(path, title, yName string, groups []groupSpec, series []group
 			if v > maxV {
 				maxV = v
 			}
-			label := g.Label
-			if len(series) > 1 {
-				label = s.Name
-				if si == 0 {
-					label = g.Label
-				}
-			}
+			label := fmt.Sprintf("%s %s", g.Label, s.Name)
 			col := colorFor(g.DBKey)
 			fill := shade(col, si, len(series))
 			bars = append(bars, chart.Value{
@@ -523,8 +517,8 @@ func barWidthFor(n, width int) int {
 		return 40
 	}
 	w := (width - 280) / (n + 2)
-	if w > 48 {
-		return 48
+	if w > 72 {
+		return 72
 	}
 	if w < 12 {
 		return 12
