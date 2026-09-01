@@ -3,6 +3,7 @@
 
 # Benchmark outputs (keep directory)
 results/*.json
+!results/aggregated_summary.json
 
 # Demo self-check outputs (not Phase 5 results)
 demo/results/*.json
