@@ -1,0 +1,97 @@
+{
+  "databases": ["arangodb", "cognodb", "falkordb", "memgraph", "neo4j"],
+  "traversals": [
+    {
+      "database": "arangodb",
+      "hop1": { "p50_ms": 80.8, "p95_ms": 107.1 },
+      "hop2": { "p50_ms": 83.1, "p95_ms": 118.5 },
+      "hop3": { "p50_ms": 107.8, "p95_ms": 732.6 }
+    },
+    {
+      "database": "cognodb",
+      "hop1": { "p50_ms": 278.5, "p95_ms": 289.8 },
+      "hop2": { "p50_ms": 279.4, "p95_ms": 297.3 },
+      "hop3": { "p50_ms": 314.9, "p95_ms": 694.6 }
+    },
+    {
+      "database": "falkordb",
+      "hop1": { "p50_ms": 70.8, "p95_ms": 84.0 },
+      "hop2": { "p50_ms": 71.4, "p95_ms": 90.9 },
+      "hop3": { "p50_ms": 75.0, "p95_ms": 94.1 }
+    },
+    {
+      "database": "memgraph",
+      "hop1": { "p50_ms": 205.5, "p95_ms": 222.4 },
+      "hop2": { "p50_ms": 203.7, "p95_ms": 230.1 },
+      "hop3": { "p50_ms": 211.8, "p95_ms": 244.8 }
+    },
+    {
+      "database": "neo4j",
+      "hop1": { "p50_ms": 118.7, "p95_ms": 130.9 },
+      "hop2": { "p50_ms": 118.5, "p95_ms": 138.7 },
+      "hop3": { "p50_ms": 119.8, "p95_ms": 148.3 }
+    }
+  ],
+  "lookups": [
+    {
+      "database": "arangodb",
+      "point": { "p50_ms": 79.0, "p95_ms": 117.0 },
+      "filtered": { "p50_ms": 79.0, "p95_ms": 106.0 }
+    },
+    {
+      "database": "cognodb",
+      "point": { "p50_ms": 280.1, "p95_ms": 308.0 },
+      "filtered": { "p50_ms": 305.0, "p95_ms": 330.8 }
+    },
+    {
+      "database": "falkordb",
+      "point": { "p50_ms": 79.8, "p95_ms": 100.8 },
+      "filtered": { "p50_ms": 81.2, "p95_ms": 104.7 }
+    },
+    {
+      "database": "memgraph",
+      "point": { "p50_ms": 202.4, "p95_ms": 224.1 },
+      "filtered": { "p50_ms": 211.2, "p95_ms": 239.8 }
+    },
+    {
+      "database": "neo4j",
+      "point": { "p50_ms": 143.5, "p95_ms": 172.3 },
+      "filtered": { "p50_ms": 158.2, "p95_ms": 188.6 }
+    }
+  ],
+  "aggregation": [
+    { "database": "arangodb", "p50_ms": 80.0, "p95_ms": 108.5 },
+    { "database": "cognodb", "p50_ms": 279.7, "p95_ms": 300.5 },
+    { "database": "falkordb", "p50_ms": 73.9, "p95_ms": 103.7 },
+    { "database": "memgraph", "p50_ms": 205.9, "p95_ms": 233.9 },
+    { "database": "neo4j", "p50_ms": 121.5, "p95_ms": 152.0 }
+  ],
+  "mixed": [
+    { "database": "arangodb", "qps": 114.1 },
+    { "database": "cognodb", "qps": 30.1 },
+    { "database": "falkordb", "qps": 94.0 },
+    { "database": "memgraph", "qps": 43.7 },
+    { "database": "neo4j", "qps": 70.8 }
+  ],
+  "load": [
+    { "database": "arangodb", "nodes_per_sec": 603.31, "rels_per_sec": 4960.85 },
+    { "database": "cognodb", "nodes_per_sec": 257.40, "rels_per_sec": 2116.57 },
+    { "database": "falkordb", "nodes_per_sec": 1573.66, "rels_per_sec": 12939.86 },
+    { "database": "memgraph", "nodes_per_sec": 522.50, "rels_per_sec": 4296.37 },
+    { "database": "neo4j", "nodes_per_sec": 755.82, "rels_per_sec": 6214.92 }
+  ],
+  "high_variance": [
+    {
+      "workload": "3-hop traversal",
+      "flagged": true,
+      "reason": "p95/p50 >= 2.0 on ArangoDB (~6.8x) and CognoDB (~2.2x)",
+      "by_database": [
+        { "database": "arangodb", "min_ms": 107.8, "mean_ms": 107.8, "max_ms": 732.6 },
+        { "database": "cognodb", "min_ms": 314.9, "mean_ms": 314.9, "max_ms": 694.6 },
+        { "database": "falkordb", "min_ms": 75.0, "mean_ms": 75.0, "max_ms": 94.1 },
+        { "database": "memgraph", "min_ms": 211.8, "mean_ms": 211.8, "max_ms": 244.8 },
+        { "database": "neo4j", "min_ms": 119.8, "mean_ms": 119.8, "max_ms": 148.3 }
+      ]
+    }
+  ]
+}

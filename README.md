@@ -129,6 +129,26 @@ ArangoDB's figures are the post-fix, re-run numbers — see Caveats for the data
 | Memgraph | 43.7 | 207.3 | 231.2 | 0 |
 | Neo4j | 70.8 | 127.3 | 160.8 | 0 |
 
+### Charts
+
+PNG charts are generated from `results/aggregated_summary.json` (same figures as the tables above) by `go run ./cmd/chart`. Each platform uses a fixed color on every chart.
+
+![Traversal p50 latency](results/charts/traversal_latency_p50.png)
+
+![Traversal p95 latency](results/charts/traversal_latency_p95.png)
+
+![Lookup latency](results/charts/lookup_latency.png)
+
+![Aggregation latency](results/charts/aggregation_latency.png)
+
+![Mixed workload QPS](results/charts/mixed_workload_qps.png)
+
+![Load throughput](results/charts/load_throughput.png)
+
+![Variance summary](results/charts/variance_summary.png)
+
+The variance chart is for 3-hop traversal, the workload flagged for a wide typical-vs-tail gap (ArangoDB p95/p50 ≈ 6.8×, CognoDB ≈ 2.2×). Bars show min / mean / max; with a single measured run those are p50 / p50 / p95.
+
 ### Footprint
 
 Live probe against all five platforms after the final load. Node count was
@@ -174,7 +194,6 @@ Zero failures across all 65 benchmark runs (13 workload/hop combinations × 5 da
 - Filtered lookup is an exact match on name, not a free-text or fuzzy search — this is not a full-text search benchmark.
 - Mixed-workload writes leave real nodes behind. The write portion of the mixed workload creates mixedbench-… nodes that remain in each database afterward. Node counts will differ from the original 26,259 if re-checked post-benchmark; this is expected, not a data-integrity issue.
 - A connectivity ping is not a query benchmark. CognoDB's raw connectivity check can report latency near 0ms — that measures a trivial round-trip, not real query cost, and could create a false impression of speed if mistaken for a benchmark result. Every number in the Results section above is real query latency, validated against an actual database via the framework's self-check (see below) before being trusted.
-- Charts were omitted given the assignment timeline; full numeric results are in the tables above.
 
 ## Code Quality & Reproducibility
 
@@ -197,5 +216,9 @@ go run ./cmd/bench_traversal
 go run ./cmd/bench_lookup
 go run ./cmd/bench_agg_mixed
 
+# 4. Generate PNG charts from results/aggregated_summary.json
+go run ./cmd/chart
+
 # Results are written to results/bench_<category>_<db>_<timestamp>.json
+# Charts are written to results/charts/*.png
 ```
